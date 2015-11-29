@@ -1,0 +1,14 @@
+{
+	"Tasks": [
+		"default",
+		"publish-github"
+	],
+	"PackageVersion": "1.0.0",
+	"TaskSettings": {
+		"publish-github": {
+			"owner": "travisjeffery",
+			"repository": "ecs-exec"
+		}
+	},
+	"ConfigVersion": "0.9"
+}
