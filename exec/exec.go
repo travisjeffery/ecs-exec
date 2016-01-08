@@ -69,9 +69,19 @@ func instanceIds(e *ecspkg.ECS, containerInstances []*string) []*string {
 }
 
 func containerInstances(e *ecspkg.ECS, cluster *string) []*string {
-	output, err := e.ListContainerInstances(&ecspkg.ListContainerInstancesInput{
-		Cluster: cluster,
-	})
-	log.Check(err)
-	return output.ContainerInstanceArns
+	instances := []*string{}
+	next := aws.String("")
+	for next != nil {
+		input := ecspkg.ListContainerInstancesInput{
+			Cluster: cluster,
+		}
+		if next != nil && *next != "" {
+			input.NextToken = next
+		}
+		output, err := e.ListContainerInstances(&input)
+		log.Check(err)
+		instances = append(instances, output.ContainerInstanceArns...)
+		next = output.NextToken
+	}
+	return instances
 }
