@@ -50,7 +50,9 @@ func privateIps(ec2 *ec2pkg.EC2, ids []*string) []*string {
 	var ips []*string
 	for _, r := range output.Reservations {
 		for _, i := range r.Instances {
-			ips = append(ips, i.PrivateIpAddress)
+			if i.PrivateIpAddress != nil {
+				ips = append(ips, i.PrivateIpAddress)
+			}
 		}
 	}
 	return ips
